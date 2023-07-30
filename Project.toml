@@ -3,6 +3,13 @@ uuid = "7f2154ff-9684-4686-a457-9182f50d0f5b"
 authors = ["Jordan Murphy"]
 version = "1.0.0-DEV"
 
+[deps]
+AngleBetweenVectors = "ec570357-d46e-52ed-9726-18773498274d"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+SatelliteToolboxBase = "9e17983a-0463-41a7-9a16-1682db6d8b66"
+StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
+ValSplit = "0625e100-946b-11ec-09cd-6328dd093154"
+
 [compat]
 julia = "1"
 
