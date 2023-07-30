@@ -11,8 +11,17 @@ function potential_accel(
 
     ecef_pos = R_J20002ITRF * @view(u[1:3])
 
+    #TODO: FIGURE OUT HOW TO SUPPORT TIME VARYING COEFFS
     return R_J20002ITRF' * gravitational_acceleration(
-        grav_model, ecef_pos, time;
+        grav_model, ecef_pos;
         max_degree=max_degree, max_order=max_order) ./ 1E3 
+
+end
+
+function keplerian_accel(u, μ_Earth)
+
+    r = @view(u[1:3])
+
+    return SVector{3}(-μ_Earth/(norm(r)^3) * r)
 
 end

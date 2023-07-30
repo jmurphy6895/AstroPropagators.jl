@@ -4,7 +4,7 @@ using ValSplit
 using StaticArrays
 using LinearAlgebra, AngleBetweenVectors
 using SatelliteToolboxBase, SatelliteToolboxGravityModels, SatelliteToolboxTransformations
-using SpaceIndices
+using SatelliteToolboxAtmosphereModels, SpaceIndices
 
 ############################################################################################
 #                                         Includes

@@ -4,6 +4,7 @@ function non_potential_accel(
     t::Number,
     eop_data::EOPData_IAU1980;
     drag_model::Symbol=:Cannonball,
+    atmosphere_type::Symbol=:JR1971,
     srp_model::Symbol=:Cannonball,
     shadow_model::Symbol=:Conical,
     lunar_3rd_body::Bool=true,
@@ -21,7 +22,7 @@ function non_potential_accel(
     sun_3rd_body_accel = solar_3rd_body * third_body_accel(u, p.μ_Sun, sun_pos)
 
     #* Drag Acceleration
-    rho = density_calculator()
+    rho = density_calculator(JD, u, eop_data, atmosphere_type)
     drag_accel = drag_accel(u, rho, p.BC, [0.0; 0.0; ω_Earth], t, drag_model)
 
     #* SRP Acceleration
