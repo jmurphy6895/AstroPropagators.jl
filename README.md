@@ -4,7 +4,7 @@
 
 ## Description
 
-This project (**H**igh-**A**ccuracy **M**odelling **E**nvironment **R**esourcing **H**ighly-**E**fficient Solvers **A**nd **D**ifferentiability) implements high-fidelity force models for Zonal Harmonics, Solar Radiation Pressure, Drag, and Third-Body Perturbations based on packages developed in the Satellite Toolbox.
+This project (**H**igh-**A**ccuracy **M**odelling **E**nvironment **R**esourcing **H**ighly-**E**fficient Solvers **A**nd **D**ifferentiability) implements high-fidelity Equations of Motion using Zonal Harmonics, Solar Radiation Pressure, Drag, and Third-Body Perturbations based on packages developed in the Satellite Toolbox.
 
 These forces are then called from a number of high performance integrator methodologies. Some of these are ported and implemented from the THALASSA library [CITE]. A full list can be found below:
 

@@ -17,29 +17,27 @@
 export shadow_model
 
 """
-    srp_accel(u::AbstractArray, μ_body::Number, body_pos::AbstractArray, h::Number) -> SVector{3}{Number}
-
-Compute the Acceleration from Solar Radiaiton Pressure
-
-Radiation from the Sun reflects off the satellite's surface and transfers momentum perturbing the satellite's trajectory. This
-force can be computed using the a Cannonball model with teh following equation
-
-
-!!! note
-    Currently only Cannonball SRP is supported, to use a higher fidelity drag either use a state varying function or compute
-    the ballsitic coeffient further upstream
+    shadow_model(sat_pos::AbstractArray, sun_pos::AbstractArray, R_Sun::Number, R_Earth::Number, t::Number, ShadowModel::Symbol)
+Computes the Lighting Factor of the Sun occur from the Umbra and Prenumbra of Earth's Shadow
 
 # Arguments
 
-- `u::AbstractArray`: The current state of the spacecraft in the central body's inertial frame.
-- `rho::Number`: Atmospheric Density at (t, u) [kg/m^3].
-- `BC::Number`: The ballistic coeffient of the satellite -- (Area/mass) * Drag Coefficient [kg/m^2].
+- `sat_pos::AbstractArray`: The current satellite position.
+- `sun_pos::AbstractArray`: The current Sun position.
+- `R_Sun::Number`: The radius of the Sun.
+- `R_Earth::Number`: The radius of the Earth.
+- `t::Number`: The current time of the simulation
+
+# Optional Arguments 
+
+- `ShadowModel::Symbol`: The Earth shadow model to use. Current Options -- :Cylindrical, :Conical, :Conical_Simplified, :Cylinder
 
 # Returns
 
 - `SVector{3}{Number}`: Inertial acceleration from the 3rd body
 """
 
+#TODO: Double Check Math
 @inline function shadow_model(
     sat_pos::AbstractArray,
     sun_pos::AbstractArray,
@@ -122,6 +120,17 @@ end
 
 end
 
+@inline function shadow_model(
+    sat_pos::AbstractArray,
+    sun_pos::AbstractArray,
+    R_Sun::Number,
+    R_Earth::Number,
+    t::Number)
+
+    return shadow_model(sat_pos, sun_pos, R_Sun, R_Earth, t, :Conical)
+
+end
+
 @valsplit function shadow_model(
     sat_pos::AbstractArray,
     sun_pos::AbstractArray,
@@ -133,3 +142,5 @@ end
     error("Shadow Model is not Defined $ShadowModel")
     
 end
+
+#TODO: ADD 3RD BODY OCCULSION

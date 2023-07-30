@@ -3,7 +3,8 @@ module HAMMERHEAD
 using ValSplit
 using StaticArrays
 using LinearAlgebra, AngleBetweenVectors
-using SatelliteToolboxBase
+using SatelliteToolboxBase, SatelliteToolboxGravityModels, SatelliteToolboxTransformations
+using SpaceIndices
 
 ############################################################################################
 #                                         Includes
