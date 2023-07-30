@@ -13,6 +13,6 @@ function potential_accel(
 
     return R_J20002ITRF' * gravitational_acceleration(
         grav_model, ecef_pos, time;
-        max_degree=max_degree, max_order=max_order)
+        max_degree=max_degree, max_order=max_order) ./ 1E3 
 
 end
