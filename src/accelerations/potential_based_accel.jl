@@ -25,3 +25,19 @@ function keplerian_accel(u, μ_Earth)
     return SVector{3}(-μ_Earth/(norm(r)^3) * r)
 
 end
+
+function potential_perturb(
+    u::AbstractArray,
+    p::ComponentArray,
+    grav_model::AbstractGravityModel{T},
+    eop_data::EOPData_IAU1980,
+    t::Number;
+    max_degree::Int=-1,
+    max_order::Int=-1) where T
+
+    return potential_accel(
+        u, p, grav_model, eop_data, t; 
+        max_order=max_order, 
+        max_degree=max_degree) - keplerian_accel(u, gravity_constant(grav_model))
+
+end
