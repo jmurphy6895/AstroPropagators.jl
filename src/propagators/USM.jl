@@ -17,7 +17,7 @@ function USM7_ODE!(
     solar_3rd_body::Bool=true)
 
     C, Rf1, Rf2, ϵO1, ϵO2, ϵO3, η0 = u
-    μ = p[1]
+    μ = gravity_constant(grav_coeffs)
 
     sinλ = (2*ϵO3*η0) / (ϵO3^2 + η0^2)
     cosλ = (η0^2 - ϵO3^2) / (ϵO3^2 + η0^2)
@@ -30,7 +30,7 @@ function USM7_ODE!(
 
     ρ = C / ve2
 
-    u_cart = USM72cart(u, gravity_constant(grav_coeffs))
+    u_cart = USM72cart(u, μ)
 
     fe = RTN_frame(u_cart) * 
         (potential_perturb(
