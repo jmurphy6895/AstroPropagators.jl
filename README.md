@@ -13,3 +13,4 @@ These forces are then called from a number of high performance integrator method
 3. Kustaanheimo-Stiefel
 4. Stiefel-Scheifel
 5. Unified State Model
+6. Gauss Variational Equations

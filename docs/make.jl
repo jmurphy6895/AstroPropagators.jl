@@ -1,10 +1,10 @@
 using Documenter
-using AstroForceModels
+using HAMMERHEAD
 
 makedocs(
-    modules = [AstroForceModels],
+    modules = [HAMMERHEAD],
     format=Documenter.HTML(; prettyurls=!("local" in ARGS), highlights=["yaml"], ansicolor=true), 
-    sitename = "AstroForceModels.jl",
+    sitename = "HAMMERHEAD.jl",
     authors = "Jordan Murphy",
     pages = [
         "Home" => "index.md",
@@ -15,6 +15,6 @@ makedocs(
 )
 
 deploydocs(
-    repo = "github.com/jmurphy6895/AstroForceModels.jl.git",
+    repo = "github.com/jmurphy6895/HAMMERHEAD.jl.git",
     target = "build",
 )

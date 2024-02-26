@@ -1,18 +1,17 @@
-AstroForceModels.jl
+HAMMERHEAD.jl
 ================================
 
-This package contains the dominant astrodynamics forces affecting the orbtial trajectory of a satellite for the **SatelliteToolbox.jl** ecosystem. Currently this package implents:
-- [] Zonal Harmonics
-- [] Solar Radiation Pressure
-- [] Drag
-- [] Third Body Gravity
-- [] Relativistic
-- [] Albedo
-- [] Solid Tides
+This package contains various propagators of satellite trajectories for the **SatelliteToolbox.jl** ecosystem. Currently this package implents:
+- [] Cowell
+- [] EDROMO
+- [] Kustaanheimo-Stiefel
+- [] Stiefel-Scheifel
+- [] Unified State Model
+- [] Gauss Variational Equations
 
 ## Installation
 
 ```julia
 julia> using Pkg
-julia> Pkg.add("AstroForceModels")
+julia> Pkg.add("HAMMERHEAD")
 ```
