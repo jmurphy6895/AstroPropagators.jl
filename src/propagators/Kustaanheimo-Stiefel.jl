@@ -7,7 +7,7 @@ function KS_ODE!(
     eop_data::EOPData_IAU1980;
     max_order::Int=-1,
     max_degree::Int=-1,
-    atmosphere_type::Symbol=:,
+    atmosphere_type::Symbol=:JR1971,
     drag_model::Symbol=:Cannonball,
     srp_model::Symbol=:Cannonball,
     shadow_model::Symbol=:Conical,
