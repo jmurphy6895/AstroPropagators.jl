@@ -17,6 +17,7 @@ StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 ValSplit = "0625e100-946b-11ec-09cd-6328dd093154"
 
 [compat]
+StaticArrays = "1"
 julia = "1.9"
 
 [extras]
