@@ -10,12 +10,12 @@
 
 This project implements several propagation methods for the **HAMMERHEAD.jl** ecosystem using equations of motion for different orbital element sets. The force models can either be user-supplied or built up with the **AstroForceModels.jl** package. This package was inspired by the THALASSA library [CITE]. A full list of implemented propagators can be found below:
 
-[ ] Cowell
-[ ] EDromo
-[ ] Kustaanheimo-Stiefel
-[ ] Stiefel-Scheifel
-[ ] Unified State Model
-[ ] Gauss Variational Equations
+- [ ] Cowell
+- [ ] EDromo
+- [ ] Kustaanheimo-Stiefel
+- [ ] Stiefel-Scheifel
+- [ ] Unified State Model
+- [ ] Gauss Variational Equations
 
 ## Installation
 
