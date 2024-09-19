@@ -1,4 +1,4 @@
-module HAMMERHEAD
+module AstroPropagators
 
 using Reexport
 

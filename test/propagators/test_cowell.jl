@@ -1,5 +1,4 @@
 @testset "Cowell Propagator Keplerian" begin
-    
     JD = date_to_jd(2024, 1, 5, 12, 0, 0.0)
     p = ComponentVector(; JD=JD)
 
@@ -20,20 +19,28 @@
     EOM!(du, u, p, t) = Cowell_EOM!(du, u, p, t, model_list)
 
     prob = ODEProblem(EOM!, u0, tspan, p)
-    sol = solve(prob, VCABM(), abstol=1e-13, reltol=1e-13)
+    sol = solve(prob, VCABM(); abstol=1e-13, reltol=1e-13)
     states = mapreduce(permutedims, vcat, sol.u)
-    NRG = [(norm(state[4:6])^2.0)/2.0 - AstroForceModels.μ_EARTH/norm(state[1:3]) for state ∈ sol.u]
+    NRG = [
+        (norm(state[4:6])^2.0) / 2.0 - AstroForceModels.μ_EARTH / norm(state[1:3]) for
+        state in sol.u
+    ]
 
     @test NRG[1] ≈ NRG[end]
 
     # Regression Test
-    expected_end = [29447.829228927185, 21027.31807398145, -1675.1455650449682, 0.1548633780399451, 2.381456403719347, 0.14019776429122285]
+    expected_end = [
+        29447.829228927185,
+        21027.31807398145,
+        -1675.1455650449682,
+        0.1548633780399451,
+        2.381456403719347,
+        0.14019776429122285,
+    ]
     @test sol.u[end] ≈ expected_end
-
 end
 
 @testset "Cowell Propagator High-Fidelity" begin
-    
     JD = date_to_jd(2024, 1, 5, 12, 0, 0.0)
     p = ComponentVector(; JD=JD)
 
@@ -69,18 +76,23 @@ end
     EOM!(du, u, p, t) = Cowell_EOM!(du, u, p, t, model_list)
 
     prob = ODEProblem(EOM!, u0, tspan, p)
-    sol = solve(prob, VCABM(), abstol=1e-13, reltol=1e-13)
+    sol = solve(prob, VCABM(); abstol=1e-13, reltol=1e-13)
     states = mapreduce(permutedims, vcat, sol.u)
-    
+
     print(sol.u[end])
     # Regression Test
-    expected_end = [29212.218059568793, 22213.569774646894, -1540.5554989791624, 0.021304477578929348, 2.305181821713249, 0.15097194461767285]
+    expected_end = [
+        29212.218059568793,
+        22213.569774646894,
+        -1540.5554989791624,
+        0.021304477578929348,
+        2.305181821713249,
+        0.15097194461767285,
+    ]
     @test sol.u[end] ≈ expected_end
-
 end
 
 @testset "Cowell Propagator High-Fidelity 2" begin
-    
     JD = date_to_jd(2024, 1, 5, 12, 0, 0.0)
     p = ComponentVector(; JD=JD)
 
@@ -111,16 +123,22 @@ end
 
     model_list = (grav_model, sun_third_body, moon_third_body, srp_model, drag_model)
 
-    tspan = (0.0, 3*86400.0)
+    tspan = (0.0, 3 * 86400.0)
 
     EOM!(du, u, p, t) = Cowell_EOM!(du, u, p, t, model_list)
 
     prob = ODEProblem(EOM!, u0, tspan, p)
-    sol = solve(prob, VCABM(), abstol=1e-13, reltol=1e-13)
+    sol = solve(prob, VCABM(); abstol=1e-13, reltol=1e-13)
     states = mapreduce(permutedims, vcat, sol.u)
 
     # Regression Test
-    expected_end = [-6581.816793688126, -2168.3971299727937, 530.0081343513036, 4.59375570942738, -7.967294156410459, -1.0528720690866222]
+    expected_end = [
+        -6581.816793688126,
+        -2168.3971299727937,
+        530.0081343513036,
+        4.59375570942738,
+        -7.967294156410459,
+        -1.0528720690866222,
+    ]
     @test sol.u[end] ≈ expected_end
-
 end
