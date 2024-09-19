@@ -47,7 +47,7 @@ function KS_ODE!(
     if time_flag == :Sundman
         dt = r_mag
     elseif time_flag == :Linear
-        lte1 = (GE_nd - 2.0 * r_mag * U) / (2.0 * h)
+        lte1 = (GE - 2.0 * r_mag * U) / (2.0 * h)
         lte20 = 2.0 * (L' * -F)
         lte2 = (r_mag / (4.0 * h)) * dot(@view(u[1:4]), lte20)
         lte3 = dh / (h^2) * dot(@view(u[1:4]), @view(u[5:8]))

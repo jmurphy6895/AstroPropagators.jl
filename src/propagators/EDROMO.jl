@@ -21,7 +21,7 @@ function EDROMO_ODE!(
     sν = (sϕ - ζ2 + (χ * ζ1) / (ϵ + 1.0)) / ρ
 
     ##################################################
-    #* 2. Position and Time in Intertial Frame
+    #* 2. Position and Time in Inertial Frame
     ##################################################    
     x = 2.0 .* [
         0.5 - ζ5^2 - ζ6^2

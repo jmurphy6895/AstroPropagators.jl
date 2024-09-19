@@ -14,7 +14,7 @@ function STI_SCHE_ODE(
     sϕ2, cϕ2 = sincos(0.5 * ϕ)
 
     ##################################################
-    #* 2. Position and Time in Intertial Frame
+    #* 2. Position and Time in Inertial Frame
     ##################################################    
     KSp = @view(u[1:4]) * cϕ2 + @view(u[5:8]) * sϕ2
     KSv = 0.5 * (-@view(u[1:4]) * sϕ2 + @view(u[5:8]) * cϕ2)
@@ -91,7 +91,7 @@ function STI_SCHE_ODE(
     if p.time_flag == :Physical
         dt = 0.5 * r_mag / u[9]
     elseif p.time_flag == :Linear
-        lte1 = (GE_nd - 2.0 * r_mag * U) / (8.0 * z[9]^3)
+        lte1 = (GE - 2.0 * r_mag * U) / (8.0 * z[9]^3)
         lte2 = (r_mag / (16.0 * u[9]^3)) * dot(KSp, KSv)
         lte3 = (2.0 / u[9]^2) * dh * dot(KSp, KSv)
         dt = lte1 - lte2 - lte3
@@ -121,7 +121,7 @@ function STI_SCHE_ODE!(
     sϕ2, cϕ2 = sincos(0.5 * ϕ)
 
     ##################################################
-    #* 2. Position and Time in Intertial Frame
+    #* 2. Position and Time in Inertial Frame
     ##################################################    
     KSp = @view(u[1:4]) * cϕ2 + @view(u[5:8]) * sϕ2
     KSv = 0.5 * (-@view(u[1:4]) * sϕ2 + @view(u[5:8]) * cϕ2)
@@ -198,7 +198,7 @@ function STI_SCHE_ODE!(
     if p.time_flag == :Physical
         dt = 0.5 * r_mag / u[9]
     elseif p.time_flag == :Linear
-        lte1 = (GE_nd - 2.0 * r_mag * U) / (8.0 * z[9]^3)
+        lte1 = (GE - 2.0 * r_mag * U) / (8.0 * z[9]^3)
         lte2 = (r_mag / (16.0 * u[9]^3)) * dot(KSp, KSv)
         lte3 = (2.0 / u[9]^2) * dh * dot(KSp, KSv)
         dt = lte1 - lte2 - lte3

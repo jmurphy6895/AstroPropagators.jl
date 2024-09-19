@@ -1,7 +1,7 @@
 AstroPropagators.jl
 ================================
 
-This package contains various propagators of satellite trajectories for the **SatelliteToolbox.jl** ecosystem. Currently this package implents:
+This package contains various propagators of satellite trajectories for the **SatelliteToolbox.jl** ecosystem. Currently this package implements:
 - [x] Cowell
 - [] EDROMO
 - [] Kustaanheimo-Stiefel
