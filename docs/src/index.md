@@ -2,7 +2,7 @@ HAMMERHEAD.jl
 ================================
 
 This package contains various propagators of satellite trajectories for the **SatelliteToolbox.jl** ecosystem. Currently this package implents:
-- [] Cowell
+- [x] Cowell
 - [] EDROMO
 - [] Kustaanheimo-Stiefel
 - [] Stiefel-Scheifel

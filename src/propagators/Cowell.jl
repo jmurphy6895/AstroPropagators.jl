@@ -1,30 +1,26 @@
+export Cowell_EOM, Cowell_EOM!
+
+function Cowell_EOM!(
+    u::AbstractArray,
+    p::ComponentVector,
+    t::Number,
+    models::NTuple{N, AstroForceModels.AbstractAstroForceModel}) where N
+
+    return SVector{6}([@view(u[4:6]); build_dynamics_model(u, p, t, models)])
+
+    return nothing
+
+end
+
 function Cowell_EOM!(
     du::AbstractArray,
     u::AbstractArray,
     p::ComponentVector,
     t::Number,
-    grav_coeffs::AbstractGravityModel,
-    eop_data::EOPData_IAU1980;
-    max_order::Int=-1,
-    max_degree::Int=-1,
-    atmosphere_type::Symbol=:JR1971,
-    drag_model::Symbol=:Cannonball,
-    srp_model::Symbol=:Cannonball,
-    shadow_model::Symbol=:Conical,
-    lunar_3rd_body::Bool=true,
-    solar_3rd_body::Bool=true)
+    models::NTuple{N, AstroForceModels.AbstractAstroForceModel}) where N
 
-    du .= [@view(u[4:6]);
-        potential_accel(u, p, grav_coeffs, eop_data, t; 
-            max_order=max_order, 
-            max_degree=max_degree) +
-        non_potential_accel(u, p, t, eop_data; 
-            atmosphere_type=atmosphere_type, 
-            srp_model=srp_model, 
-            drag_model=drag_model, 
-            shadow_model=shadow_model, 
-            lunar_3rd_body=lunar_3rd_body, 
-            solar_3rd_body=solar_3rd_body)]
+    du[1:3] .= u[4:6]
+    du[4:6] .= build_dynamics_model(u, p, t, models)
 
     return nothing
 

@@ -3,17 +3,8 @@ function KS_ODE!(
     u::AbstractArray,
     p::ComponentVector,
     ϕ::Number,
-    grav_coeffs::AbstractGravityModel,
-    eop_data::EOPData_IAU1980;
-    max_order::Int=-1,
-    max_degree::Int=-1,
-    atmosphere_type::Symbol=:JR1971,
-    drag_model::Symbol=:Cannonball,
-    srp_model::Symbol=:Cannonball,
-    shadow_model::Symbol=:Conical,
-    lunar_3rd_body::Bool=true,
-    solar_3rd_body::Bool=true)
-
+    models::NTuple{N, AstroForceModels.AbstractAstroForceModel}) where N
+    
     KSp1, KSp2, KSp3, KSp4, KSv1, KSv2, KSv3, KSv4, h, τ = u
 
     ##################################################

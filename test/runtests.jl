@@ -1,6 +1,8 @@
-using HAMMERHEAD
+using AstroPropagators
 using Test
 
-@testset "HAMMERHEAD.jl" begin
-    # Write your tests here.
+@testset "AstroPropagators.jl" begin
+    
+    include("propagators/test_cowell.jl")
+    
 end
