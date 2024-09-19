@@ -1,4 +1,5 @@
 using AstroPropagators
+using Aqua
 using ComponentArrays
 using LinearAlgebra
 using OrdinaryDiffEqAdamsBashforthMoulton
