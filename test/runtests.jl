@@ -11,3 +11,7 @@ using Test
 @testset "AstroPropagators.jl" begin
     include("propagators/test_cowell.jl")
 end
+
+@testset "Aqua.jl" begin
+    Aqua.test_all(AstroForceModels; ambiguities=(recursive = false))
+end
