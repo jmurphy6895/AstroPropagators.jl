@@ -1,8 +1,8 @@
-HAMMERHEAD.jl
+AstroPropagators.jl
 ================================
 
-This package contains various propagators of satellite trajectories for the **SatelliteToolbox.jl** ecosystem. Currently this package implents:
-- [] Cowell
+This package contains various propagators of satellite trajectories for the **SatelliteToolbox.jl** ecosystem. Currently this package implements:
+- [x] Cowell
 - [] EDROMO
 - [] Kustaanheimo-Stiefel
 - [] Stiefel-Scheifel
@@ -13,5 +13,5 @@ This package contains various propagators of satellite trajectories for the **Sa
 
 ```julia
 julia> using Pkg
-julia> Pkg.add("HAMMERHEAD")
+julia> Pkg.add("AstroPropagators")
 ```
