@@ -34,4 +34,4 @@ SpaceIndices = "5a540a4e-639f-452a-b107-23ea09ed4d36"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["SatelliteToolboxGravityModels", "SatelliteToolboxTransformations", "SpaceIndices", "Test"]
+test = ["Aqua", "SatelliteToolboxGravityModels", "SatelliteToolboxTransformations", "SpaceIndices", "Test"]
