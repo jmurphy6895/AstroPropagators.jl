@@ -2,7 +2,7 @@ using Documenter
 using AstroPropagators
 
 makedocs(;
-    modules=[AstroPropagatorsD],
+    modules=[AstroPropagators],
     format=Documenter.HTML(;
         prettyurls=!("local" in ARGS), highlights=["yaml"], ansicolor=true
     ),
