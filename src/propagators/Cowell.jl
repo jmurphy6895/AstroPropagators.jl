@@ -1,6 +1,6 @@
 export Cowell_EOM, Cowell_EOM!
 
-function Cowell_EOM!(
+function Cowell_EOM(
     u::AbstractArray,
     p::ComponentVector,
     t::Number,
