@@ -1,5 +1,6 @@
 using AstroPropagators
 using ComponentArrays
+using LinearAlgebra
 using OrdinaryDiffEqAdamsBashforthMoulton
 using OrdinaryDiffEqCore
 using SatelliteToolboxGravityModels

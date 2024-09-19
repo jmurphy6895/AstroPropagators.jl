@@ -5,7 +5,7 @@ using Reexport
 @reexport using AstroForceModels
 using ComponentArrays
 using LinearAlgebra
-using StaticArrays
+using StaticArraysCore
 
 ############################################################################################
 #                                         Includes
