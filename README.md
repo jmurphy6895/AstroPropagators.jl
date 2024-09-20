@@ -31,5 +31,5 @@ julia> Pkg.add("AstroPropagators")
 
 For more information, see the [documentation][docs-stable-url].
 
-[docs-dev-url]: https://jmurphy6895.github.io/AstroPropagators.jl/stable/
-[docs-stable-url]: https://jmurphy6895.github.io/AstroPropagators.jl/stable/
+[docs-dev-url]: https://jmurphy6895.github.io/AstroPropagators.jl/dev/
+[docs-stable-url]: https://jmurphy6895.github.io/AstroPropagators.jl/dev/
