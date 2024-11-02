@@ -1,4 +1,5 @@
 using AstroCoords
+using AstroForceModels
 using AstroPropagators
 using Aqua
 using ComponentArrays
