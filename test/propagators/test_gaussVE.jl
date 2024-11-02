@@ -1,8 +1,8 @@
-@testset "Cowell Propagator Keplerian" begin
+@testset "Gauss Variational Equations Propagator Keplerian" begin
     JD = date_to_jd(2024, 1, 5, 12, 0, 0.0)
-    p = ComponentVector(; JD=JD)
 
     grav_model = KeplerianGravityAstroModel()
+    p = ComponentVector(; JD=JD, μ=grav_model.μ)
 
     u0 = [
         -1076.225324679696
@@ -13,19 +13,21 @@
         -1.1880157328553503
     ] #km, km/s
 
+    u0_koe = Array(Keplerian(Cartesian(u0), p.μ))
+
     model_list = (grav_model,)
     tspan = (0.0, 86400.0)
 
-    EOM!(du, u, p, t) = Cowell_EOM!(du, u, p, t, model_list)
+    EOM!(du, u, p, t) = GaussVE_EOM!(du, u, p, t, model_list)
 
-    prob = ODEProblem(EOM!, u0, tspan, p)
+    prob = ODEProblem(EOM!, u0_koe, tspan, p)
     sol = solve(prob, VCABM(); abstol=1e-13, reltol=1e-13)
 
-    NRG = orbitalNRG.(Cartesian.(sol.u), grav_model.μ)
+    NRG = orbitalNRG.(Keplerian.(sol.u), p.μ)
 
     @test NRG[1] ≈ NRG[end]
-    sol.u[end]
-    # Regression Test
+
+    # Comparison Against Cowell
     expected_end = [
         29447.829229065504
         21027.31807433234
@@ -34,12 +36,11 @@
         2.3814564036944668
         0.1401977642923555
     ]
-    @test sol.u[end] ≈ expected_end
+    @test Cartesian(Keplerian(sol.u[end]), p.μ) ≈ expected_end
 end
 
-@testset "Cowell Propagator High-Fidelity" begin
+@testset "Gauss Variational Equations Propagator High-Fidelity" begin
     JD = date_to_jd(2024, 1, 5, 12, 0, 0.0)
-    p = ComponentVector(; JD=JD)
 
     SpaceIndices.init()
     eop_data = fetch_iers_eop()
@@ -48,6 +49,10 @@ end
     grav_model = GravityHarmonicsAstroModel(;
         gravity_model=grav_coeffs, eop_data=eop_data, order=36, degree=36
     )
+    p = ComponentVector(;
+        JD=JD, μ=GravityModels.gravity_constant(grav_model.gravity_model) / 1E9
+    )
+
     sun_third_body = ThirdBodyModel(; body=SunBody(), eop_data=eop_data)
     moon_third_body = ThirdBodyModel(; body=MoonBody(), eop_data=eop_data)
 
@@ -66,16 +71,18 @@ end
         -1.1880157328553503
     ] #km, km/s
 
+    u0_koe = Array(Keplerian(Cartesian(u0), p.μ))
+
     model_list = (grav_model, sun_third_body, moon_third_body, srp_model, drag_model)
 
     tspan = (0.0, 86400.0)
 
-    EOM!(du, u, p, t) = Cowell_EOM!(du, u, p, t, model_list)
+    EOM!(du, u, p, t) = GaussVE_EOM!(du, u, p, t, model_list)
 
-    prob = ODEProblem(EOM!, u0, tspan, p)
+    prob = ODEProblem(EOM!, u0_koe, tspan, p)
     sol = solve(prob, VCABM(); abstol=1e-13, reltol=1e-13)
-    sol.u[end]
-    # Regression Test
+
+    # Comparison Against Cowell
     expected_end = [
         29212.62374256986
         22212.76353663187
@@ -84,12 +91,11 @@ end
         2.3052533789977283
         0.15096291364452943
     ]
-    @test sol.u[end] ≈ expected_end rtol = 1e-4
+    @test Cartesian(Keplerian(sol.u[end]), p.μ) ≈ expected_end rtol = 1e-2
 end
 
-@testset "Cowell Propagator High-Fidelity 2" begin
+@testset "Gauss Variational Equations Propagator High-Fidelity 2" begin
     JD = date_to_jd(2024, 1, 5, 12, 0, 0.0)
-    p = ComponentVector(; JD=JD)
 
     SpaceIndices.init()
     eop_data = fetch_iers_eop()
@@ -98,10 +104,14 @@ end
     grav_model = GravityHarmonicsAstroModel(;
         gravity_model=grav_coeffs, eop_data=eop_data, order=36, degree=36
     )
+    p = ComponentVector(;
+        JD=JD, μ=GravityModels.gravity_constant(grav_model.gravity_model) / 1E9
+    )
+
     sun_third_body = ThirdBodyModel(; body=SunBody(), eop_data=eop_data)
     moon_third_body = ThirdBodyModel(; body=MoonBody(), eop_data=eop_data)
 
-    satellite_srp_model = CannonballFixedSRP(0.5)
+    satellite_srp_model = CannonballFixedSRP(0.2)
     srp_model = SRPAstroModel(satellite_srp_model, sun_third_body, eop_data, Conical())
 
     satellite_drag_model = CannonballFixedDrag(0.2)
@@ -116,23 +126,26 @@ end
         -1.1880157328553503
     ] #km, km/s
 
+    u0_koe = Array(Keplerian(Cartesian(u0), p.μ))
+
     model_list = (grav_model, sun_third_body, moon_third_body, srp_model, drag_model)
 
     tspan = (0.0, 3 * 86400.0)
 
-    EOM!(du, u, p, t) = Cowell_EOM!(du, u, p, t, model_list)
+    EOM!(du, u, p, t) = GaussVE_EOM!(du, u, p, t, model_list)
 
-    prob = ODEProblem(EOM!, u0, tspan, p)
+    prob = ODEProblem(EOM!, u0_koe, tspan, p)
     sol = solve(prob, VCABM(); abstol=1e-13, reltol=1e-13)
 
     # Regression Test
+    # TODO: Cowell and GaussVE diverge after a while, need better tests
     expected_end = [
-        -6784.9921776875735
-        -1799.304269908728
-        577.7813575312992
-        4.235672199681506
-        -8.073913231493453
-        -1.023142249002948
+        -8346.845469406533
+        3439.923878975506
+        1120.734925116905
+        0.6307974549424503
+        -7.946965559125374
+        -0.6293738968161298
     ]
-    @test sol.u[end] ≈ expected_end rtol = 1e-4
+    @test Cartesian(Keplerian(sol.u[end]), p.μ) ≈ expected_end rtol = 1e-4
 end

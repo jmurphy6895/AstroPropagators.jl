@@ -1,25 +1,50 @@
+
 abstract type AbstractPropType end
-struct Cowell <: AbstractPropType end
+
+export CowellPropagator,
+    GaussVEPropagator,
+    MilankovichPropagator,
+    USM7Propagator,
+    USM6Propagator,
+    USMEMPropagator
+
+struct CowellPropagator <: AbstractPropType end
+struct GaussVEPropagator <: AbstractPropType end
+struct MilankovichPropagator <: AbstractPropType end
+struct USM7Propagator <: AbstractPropType end
+struct USM6Propagator <: AbstractPropType end
+struct USMEMPropagator <: AbstractPropType end
 
 function propagate(
     u0::AbstractArray,
     p::ComponentArray,
     models::NTuple{N,AstroForceModels.AbstractAstroForceModel},
     tspan::Tuple{Number,Number};
-    tsteps=nothing,
-    ODE_solver=VCABM(),
-    abstol=1E-13,
-    reltol=1E-13,
+    prop_type::AbstractPropType=CowellPropagator(),
+    tsteps::Union{Vector{<:AbstractFloat},Nothing}=nothing,
+    ODE_solver::OrdinaryDiffEqCore.OrdinaryDiffEqAlgorithm=VCABM(),
+    abstol::Float64=1E-13,
+    reltol::Float64=1E-13,
     output_file::Union{String,Nothing}=nothing,
 ) where {N}
+
+    #TODO: DO THIS MORE INTELLIGENTLY
     EOM!(du, u, p, t) =
-        if prop_type == Cowell()
+        if prop_type == CowellPropagator()
             Cowell_EOM!(du, u, p, t, models)
+        elseif prop_type == GaussVEPropagator()
+            GaussVE_EOM!(du, u, p, t, models)
+        elseif prop_type == MilankovichPropagator()
+            Milankovich_EOM!(du, u, p, t, models)
+        elseif prop_type == USM7Propagator()
+            USM7_EOM!(du, u, p, t, models)
+        elseif prop_type == USM6Propagator()
+            USM6_EOM!(du, u, p, t, models)
+        elseif prop_type == USMEMPropagator()
+            USMEM_EOM!(du, u, p, t, models)
         end
 
-    #TODO: Add in rest of propagators
-
-    ODE_prob = ODEProblem(EOM!, u0, tspan, p)
+    ODE_prob = ODEProblem{true}(EOM!, u0, tspan, p)
 
     sol = solve(ODE_prob, ODE_solver; reltol=reltol, abstol=abstol)
 
