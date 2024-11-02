@@ -1,25 +1,23 @@
 export Cowell_EOM, Cowell_EOM!
 
 function Cowell_EOM(
-    u::AbstractArray,
+    u::AbstractVector,
     p::ComponentVector,
     t::Number,
     models::NTuple{N,AstroForceModels.AbstractAstroForceModel},
 ) where {N}
-    return SVector{6}([@view(u[4:6]); build_dynamics_model(u, p, t, models)])
-
-    return nothing
+    accel = build_dynamics_model(u, p, t, models)
+    return SVector{6}(u[4], u[5], u[6], accel[1], accel[2], accel[3])
 end
 
 function Cowell_EOM!(
-    du::AbstractArray,
-    u::AbstractArray,
+    du::AbstractVector,
+    u::AbstractVector,
     p::ComponentVector,
     t::Number,
     models::NTuple{N,AstroForceModels.AbstractAstroForceModel},
 ) where {N}
-    du[1:3] .= u[4:6]
-    du[4:6] .= build_dynamics_model(u, p, t, models)
+    du .= Cowell_EOM(u, p, t, models)
 
     return nothing
 end

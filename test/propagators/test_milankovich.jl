@@ -1,8 +1,8 @@
-@testset "Cowell Propagator Keplerian" begin
+@testset "Milankovich Propagator Keplerian" begin
     JD = date_to_jd(2024, 1, 5, 12, 0, 0.0)
-    p = ComponentVector(; JD=JD)
 
     grav_model = KeplerianGravityAstroModel()
+    p = ComponentVector(; JD=JD, μ=grav_model.μ)
 
     u0 = [
         -1076.225324679696
@@ -13,22 +13,24 @@
         -1.1880157328553503
     ] #km, km/s
 
+    u0_Mil = Array(AstroCoords.cart2Mil(u0, p.μ))
+
     model_list = (grav_model,)
     tspan = (0.0, 86400.0)
 
-    EOM!(du, u, p, t) = Cowell_EOM!(du, u, p, t, model_list)
+    EOM!(du, u, p, t) = Milankovich_EOM!(du, u, p, t, model_list)
 
-    prob = ODEProblem(EOM!, u0, tspan, p)
+    prob = ODEProblem(EOM!, u0_Mil, tspan, p)
     sol = solve(prob, VCABM(); abstol=1e-13, reltol=1e-13)
     states = mapreduce(permutedims, vcat, sol.u)
     NRG = [
         (norm(state[4:6])^2.0) / 2.0 - AstroForceModels.μ_EARTH / norm(state[1:3]) for
-        state in sol.u
+        state in AstroCoords.Mil2cart.(sol.u, p.μ)
     ]
 
     @test NRG[1] ≈ NRG[end]
 
-    # Regression Test
+    # Comparison Against Cowell
     expected_end = [
         29447.829228927185,
         21027.31807398145,
@@ -37,12 +39,11 @@
         2.381456403719347,
         0.14019776429122285,
     ]
-    @test sol.u[end] ≈ expected_end
+    @test AstroCoords.Mil2cart(sol.u[end], p.μ) ≈ expected_end
 end
 
-@testset "Cowell Propagator High-Fidelity" begin
+@testset "Milankovich Propagator High-Fidelity" begin
     JD = date_to_jd(2024, 1, 5, 12, 0, 0.0)
-    p = ComponentVector(; JD=JD)
 
     SpaceIndices.init()
     eop_data = fetch_iers_eop()
@@ -51,6 +52,10 @@ end
     grav_model = GravityHarmonicsAstroModel(;
         gravity_model=grav_coeffs, eop_data=eop_data, order=36, degree=36
     )
+    p = ComponentVector(;
+        JD=JD, μ=GravityModels.gravity_constant(grav_model.gravity_model) / 1E9
+    )
+
     sun_third_body = ThirdBodyModel(; body=SunBody(), eop_data=eop_data)
     moon_third_body = ThirdBodyModel(; body=MoonBody(), eop_data=eop_data)
 
@@ -68,18 +73,18 @@ end
         -3.3123476319597557
         -1.1880157328553503
     ] #km, km/s
+    u0_Mil = Array(Milankovich(Cartesian(u0), p.μ))
 
     model_list = (grav_model, sun_third_body, moon_third_body, srp_model, drag_model)
 
     tspan = (0.0, 86400.0)
 
-    EOM!(du, u, p, t) = Cowell_EOM!(du, u, p, t, model_list)
+    EOM!(du, u, p, t) = Milankovich_EOM!(du, u, p, t, model_list)
 
-    prob = ODEProblem(EOM!, u0, tspan, p)
+    prob = ODEProblem(EOM!, u0_Mil, tspan, p)
     sol = solve(prob, VCABM(); abstol=1e-13, reltol=1e-13)
-    states = mapreduce(permutedims, vcat, sol.u)
 
-    # Regression Test
+    # Comparison Against Cowell
     expected_end = [
         29212.218059568793,
         22213.569774646894,
@@ -88,12 +93,11 @@ end
         2.305181821713249,
         0.15097194461767285,
     ]
-    @test sol.u[end] ≈ expected_end rtol = 1e-4
+    @test Cartesian(Milankovich(sol.u[end]), p.μ) ≈ expected_end rtol = 1e-4
 end
 
-@testset "Cowell Propagator High-Fidelity 2" begin
+@testset "Milankovich Propagator High-Fidelity 2" begin
     JD = date_to_jd(2024, 1, 5, 12, 0, 0.0)
-    p = ComponentVector(; JD=JD)
 
     SpaceIndices.init()
     eop_data = fetch_iers_eop()
@@ -102,6 +106,10 @@ end
     grav_model = GravityHarmonicsAstroModel(;
         gravity_model=grav_coeffs, eop_data=eop_data, order=36, degree=36
     )
+    p = ComponentVector(;
+        JD=JD, μ=GravityModels.gravity_constant(grav_model.gravity_model) / 1E9
+    )
+
     sun_third_body = ThirdBodyModel(; body=SunBody(), eop_data=eop_data)
     moon_third_body = ThirdBodyModel(; body=MoonBody(), eop_data=eop_data)
 
@@ -120,16 +128,18 @@ end
         -1.1880157328553503
     ] #km, km/s
 
+    u0_Mil = Array(Milankovich(Cartesian(u0), p.μ))
+
     model_list = (grav_model, sun_third_body, moon_third_body, srp_model, drag_model)
 
     tspan = (0.0, 3 * 86400.0)
 
-    EOM!(du, u, p, t) = Cowell_EOM!(du, u, p, t, model_list)
+    EOM!(du, u, p, t) = Milankovich_EOM!(du, u, p, t, model_list)
 
-    prob = ODEProblem(EOM!, u0, tspan, p)
+    prob = ODEProblem(EOM!, u0_Mil, tspan, p)
     sol = solve(prob, VCABM(); abstol=1e-13, reltol=1e-13)
 
-    # Regression Test
+    # Comparison Against Cowell
     expected_end = [
         -6786.287820442294
         -1796.8353557785467
@@ -138,5 +148,5 @@ end
         -8.074542523286715
         -1.0229403931458645
     ]
-    @test sol.u[end] ≈ expected_end rtol = 1e-4
+    @test Cartesian(Milankovich(sol.u[end]), p.μ) ≈ expected_end rtol = 1e-4
 end

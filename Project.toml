@@ -4,15 +4,19 @@ authors = ["Jordan Murphy"]
 version = "0.1.0"
 
 [deps]
+AstroCoords = "27fb9038-6a9d-4e07-8d5d-d0805b53c4cb"
 AstroForceModels = "077569d7-e100-45f3-83e3-c646e23345bd"
 ComponentArrays = "b0b7db55-cfe3-40fc-9ded-d10e2dbeff66"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+OrdinaryDiffEqAdamsBashforthMoulton = "89bda076-bce5-4f1c-845f-551c83cdda9a"
+OrdinaryDiffEqCore = "bbf590c4-e513-4bbe-9b18-05decba2e5d8"
 Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
 StaticArraysCore = "1e83bf80-4336-4d27-bf5d-d5a4f845583c"
 
 [compat]
-AstroForceModels = "0.3.3"
 Aqua = "0.8"
+AstroCoords = "0.2"
+AstroForceModels = "0.3"
 ComponentArrays = "0.15"
 LinearAlgebra = "1"
 OrdinaryDiffEqAdamsBashforthMoulton = "1.1"
@@ -23,16 +27,14 @@ SatelliteToolboxTransformations = "0.1"
 SpaceIndices = "1"
 StaticArraysCore = "1"
 Test = "1"
-julia = "1.10"
+julia = "1.11"
 
 [extras]
 Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
-OrdinaryDiffEqAdamsBashforthMoulton = "89bda076-bce5-4f1c-845f-551c83cdda9a"
-OrdinaryDiffEqCore = "bbf590c4-e513-4bbe-9b18-05decba2e5d8"
 SatelliteToolboxGravityModels = "bd9e9728-6f7b-4d28-9e50-c765cb1b7c8c"
 SatelliteToolboxTransformations = "6b019ec1-7a1e-4f04-96c7-a9db1ca5514d"
 SpaceIndices = "5a540a4e-639f-452a-b107-23ea09ed4d36"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Aqua", "OrdinaryDiffEqAdamsBashforthMoulton", "OrdinaryDiffEqCore", "SatelliteToolboxGravityModels", "SatelliteToolboxTransformations", "SpaceIndices", "Test"]
+test = ["Aqua", "SatelliteToolboxGravityModels", "SatelliteToolboxTransformations", "SpaceIndices", "Test"]

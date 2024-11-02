@@ -1,3 +1,4 @@
+using AstroCoords
 using AstroPropagators
 using Aqua
 using ComponentArrays
@@ -9,9 +10,21 @@ using SatelliteToolboxTransformations
 using SpaceIndices
 using Test
 
+#using JET
+#using AllocCheck
+
 @testset "AstroPropagators.jl" begin
     include("propagators/test_cowell.jl")
+    include("propagators/test_gaussVE.jl")
+    include("propagators/test_milankovich.jl")
+    include("propagators/test_USM.jl")
 end
+
+#TODO: NEED TO FIX IN AstroForceModels & SatelliteToolbox
+#@testset "Code Performance" begin
+#    include("test_JET.jl")
+#    include("test_allocs.jl")
+#end
 
 @testset "Aqua.jl" begin
     Aqua.test_all(AstroPropagators; ambiguities=(recursive = false))
