@@ -1,9 +1,7 @@
 module AstroPropagators
 
-using Reexport
-
-@reexport using AstroForceModels
 using AstroCoords
+using AstroForceModels
 using ComponentArrays
 using LinearAlgebra
 using OrdinaryDiffEqAdamsBashforthMoulton
