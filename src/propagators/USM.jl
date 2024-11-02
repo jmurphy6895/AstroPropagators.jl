@@ -301,7 +301,6 @@ function USMEM_EOM!(
     models::NTuple{N,AstroForceModels.AbstractAstroForceModel},
     Φ_tol::Float64=1E-8,
 ) where {N}
-
     du .= USMEM_EOM(u, p, t, models; Φ_tol=Φ_tol)
 
     return nothing
