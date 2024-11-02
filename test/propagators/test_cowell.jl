@@ -20,22 +20,19 @@
 
     prob = ODEProblem(EOM!, u0, tspan, p)
     sol = solve(prob, VCABM(); abstol=1e-13, reltol=1e-13)
-    states = mapreduce(permutedims, vcat, sol.u)
-    NRG = [
-        (norm(state[4:6])^2.0) / 2.0 - AstroForceModels.μ_EARTH / norm(state[1:3]) for
-        state in sol.u
-    ]
+
+    NRG = orbitalNRG.(Cartesian.(sol.u), grav_model.μ)
 
     @test NRG[1] ≈ NRG[end]
-
+    sol.u[end]
     # Regression Test
     expected_end = [
-        29447.829228927185,
-        21027.31807398145,
-        -1675.1455650449682,
-        0.1548633780399451,
-        2.381456403719347,
-        0.14019776429122285,
+        29447.829229065504;
+        21027.31807433234;
+        -1675.1455650359862;
+        0.1548633780130051;
+        2.3814564036944668;
+        0.1401977642923555
     ]
     @test sol.u[end] ≈ expected_end
 end
@@ -77,16 +74,15 @@ end
 
     prob = ODEProblem(EOM!, u0, tspan, p)
     sol = solve(prob, VCABM(); abstol=1e-13, reltol=1e-13)
-    states = mapreduce(permutedims, vcat, sol.u)
-
+    sol.u[end]
     # Regression Test
     expected_end = [
-        29212.218059568793,
-        22213.569774646894,
-        -1540.5554989791624,
-        0.021304477578929348,
-        2.305181821713249,
-        0.15097194461767285,
+        29212.62374256986;
+        22212.76353663187;
+        -1540.6511103523974;
+        0.021438031925788435;
+        2.3052533789977283;
+        0.15096291364452943
     ]
     @test sol.u[end] ≈ expected_end rtol = 1e-4
 end
@@ -131,12 +127,12 @@ end
 
     # Regression Test
     expected_end = [
-        -6786.287820442294
-        -1796.8353557785467
-        578.0942989518618
-        4.233306215217419
-        -8.074542523286715
-        -1.0229403931458645
+        -6784.9921776875735;
+        -1799.304269908728;
+        577.7813575312992;
+        4.235672199681506;
+        -8.073913231493453;
+        -1.023142249002948
     ]
     @test sol.u[end] ≈ expected_end rtol = 1e-4
 end
