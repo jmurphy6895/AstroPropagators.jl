@@ -294,12 +294,14 @@ Returns:
 - `nothing`
 """
 function USMEM_EOM!(
+    du::AbstractVector,
     u::AbstractVector,
     p::ComponentVector,
     t::Number,
     models::NTuple{N,AstroForceModels.AbstractAstroForceModel},
     Φ_tol::Float64=1E-8,
 ) where {N}
+
     du .= USMEM_EOM(u, p, t, models; Φ_tol=Φ_tol)
 
     return nothing
