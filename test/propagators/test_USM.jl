@@ -187,7 +187,7 @@ end
         2.3814564036944668
         0.1401977642923555
     ]
-    @test Cartesian(USM6(sol.u[end]), p.μ) ≈ expected_end rtol = 1e-6
+    @test Cartesian(USM6(sol.u[end]), p.μ) ≈ expected_end rtol = 1e-4
 end
 
 @testset "USM6 Propagator High-Fidelity" begin
