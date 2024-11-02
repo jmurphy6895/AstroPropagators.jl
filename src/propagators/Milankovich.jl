@@ -1,15 +1,22 @@
 export Milankovich_EOM, Milankovich_EOM!
 """
-Milankovich ODE System
+    function Milankovich_EOM(
+        u::AbstractVector,
+        p::ComponentVector,
+        t::Number,
+        models::NTuple{N,AstroForceModels.AbstractAstroForceModel},
+    ) where {N}
+
+Milankovich propagation schema for orbital trajectories
 
 Arguments:
--'u::AbstractArray': USM State Vector [H; e; L]
--'p::AbstractArray': Parameter Vector
--'t::AbstractFloat': Time
--'accel::Function': Function computing perturbing acceleration in the inertial frame 
+-`u::AbstractVector`: The current Milankovich state.
+-`p::ComponentVector`: The parameter vector, the simulation start date JD and the central body gravitational parameter.
+-`t::Number`: The current time.
+-`models::NTuple{N,AstroForceModels.AbstractAstroForceModel}`: Tuple of the acceleration models.
 
 Returns:
--'du::AbstractArray{AbstractFloat, 1}': USM ODE Change in State Vector [dH; de; dL]
+-`du::AbstractVector`: Instantenous rate of change of the current state with respect to time.
 """
 function Milankovich_EOM(
     u::AbstractVector,
@@ -41,6 +48,28 @@ function Milankovich_EOM(
     return SVector{7}(dH[1], dH[2], dH[3], de[1], de[2], de[3], dL)
 end
 
+
+"""
+    function Milankovich_EOM!(
+        du::AbstractVector,
+        u::AbstractVector,
+        p::ComponentVector,
+        t::Number,
+        models::NTuple{N,AstroForceModels.AbstractAstroForceModel},
+    ) where {N}
+
+Milankovich propagation schema for orbital trajectories
+
+Arguments:
+-`du::AbstractVector`: In-place vector to store the instantenous rate of change of the current state with respect to time.
+-`u::AbstractVector`: The current Milankovich state.
+-`p::ComponentVector`: The parameter vector, the simulation start date JD and the central body gravitational parameter.
+-`t::Number`: The current time.
+-`models::NTuple{N,AstroForceModels.AbstractAstroForceModel}`: Tuple of the acceleration models.
+
+Returns:
+- `nothing`
+"""
 function Milankovich_EOM!(
     du::AbstractVector,
     u::AbstractVector,

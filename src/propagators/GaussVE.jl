@@ -1,15 +1,22 @@
 export GaussVE_EOM, GaussVE_EOM!
 """
-Gaussian Variational Equations for the Keplerian Orbital Elements
+    function GaussVE_EOM(
+        u::AbstractVector,
+        p::ComponentVector,
+        t::Number,
+        models::NTuple{N,AstroForceModels.AbstractAstroForceModel},
+    ) where {N}
+
+Gauss variational propagation schema for orbital trajectories
 
 Arguments:
--'u::AbstractArray': Keplerian State Vector [a; e; i; Ω; ω; f]
--'p::AbstractArray': Parameter Vector
--'t::AbstractFloat': Time
--'accel::Function': Function computing perturbing acceleration in the inertial frame 
+-`u::AbstractVector`: The current Keplerian state.
+-`p::ComponentVector`: The parameter vector, the simulation start date JD and the central body gravitational parameter.
+-`t::Number`: The current time.
+-`models::NTuple{N,AstroForceModels.AbstractAstroForceModel}`: Tuple of the acceleration models.
 
 Returns:
--'du::AbstractArray{AbstractFloat, 1}': Keplerian ODE Change in State Vector [da; de; di; dΩ; dω; df]
+-`du::AbstractVector`: Instantenous rate of change of the current state with respect to time.
 """
 function GaussVE_EOM(
     u::AbstractVector,
@@ -51,6 +58,27 @@ function GaussVE_EOM(
     return SVector{6}(da, de, di, dΩ, dω, df)
 end
 
+"""
+    function GaussVE_EOM!(
+        du::AbstractVector,
+        u::AbstractVector,
+        p::ComponentVector,
+        t::Number,
+        models::NTuple{N,AstroForceModels.AbstractAstroForceModel},
+    ) where {N}
+
+Gauss variational propagation schema for orbital trajectories
+
+Arguments:
+-`du::AbstractVector`: In-place vector to store the instantenous rate of change of the current state with respect to time.
+-`u::AbstractVector`: The current Keplerian state.
+-`p::ComponentVector`: The parameter vector, the simulation start date JD and the central body gravitational parameter.
+-`t::Number`: The current time.
+-`models::NTuple{N,AstroForceModels.AbstractAstroForceModel}`: Tuple of the acceleration models.
+
+Returns:
+- `nothing`
+"""
 function GaussVE_EOM!(
     du::AbstractVector,
     u::AbstractVector,

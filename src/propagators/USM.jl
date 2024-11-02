@@ -1,5 +1,23 @@
 export USM7_EOM, USM7_EOM!
+"""
+    function USM7_EOM(
+        u::AbstractVector,
+        p::ComponentVector,
+        t::Number,
+        models::NTuple{N,AstroForceModels.AbstractAstroForceModel},
+    ) where {N}
 
+Unified State Model (quaternions) propagation schema for orbital trajectories
+
+Arguments:
+-`u::AbstractVector`: The current USM7 state.
+-`p::ComponentVector`: The parameter vector, the simulation start date JD and the central body gravitational parameter.
+-`t::Number`: The current time.
+-`models::NTuple{N,AstroForceModels.AbstractAstroForceModel}`: Tuple of the acceleration models.
+
+Returns:
+-`du::AbstractVector`: Instantenous rate of change of the current state with respect to time.
+"""
 function USM7_EOM(
     u::AbstractVector,
     p::ComponentVector,
@@ -40,6 +58,27 @@ function USM7_EOM(
     )
 end
 
+"""
+    function USM7_EOM!(
+        du::AbstractVector,
+        u::AbstractVector,
+        p::ComponentVector,
+        t::Number,
+        models::NTuple{N,AstroForceModels.AbstractAstroForceModel},
+    ) where {N}
+
+Unified State Model (quaternions) propagation schema for orbital trajectories
+
+Arguments:
+-`du::AbstractVector`: In-place vector to store the instantenous rate of change of the current state with respect to time.
+-`u::AbstractVector`: The current USM7 state.
+-`p::ComponentVector`: The parameter vector, the simulation start date JD and the central body gravitational parameter.
+-`t::Number`: The current time.
+-`models::NTuple{N,AstroForceModels.AbstractAstroForceModel}`: Tuple of the acceleration models.
+
+Returns:
+- `nothing`
+"""
 function USM7_EOM!(
     du::AbstractVector,
     u::AbstractVector,
@@ -54,16 +93,23 @@ end
 
 export USM6_EOM, USM6_EOM!
 """
-USM6 ODE System
+    function USM6_EOM(
+        u::AbstractVector,
+        p::ComponentVector,
+        t::Number,
+        models::NTuple{N,AstroForceModels.AbstractAstroForceModel},
+    ) where {N}
+
+Unified State Model (MRP's) propagation schema for orbital trajectories
 
 Arguments:
--'u::AbstractArray{AbstractFloat, 1}': USM6 State Vector [C; Rf1; Rf2; σ1; σ2; σ3]
--'p::AbstractArray{AbstractFloat, 1}': Parameter Vector
--'t::AbstractFloat': Time
--'accel::Function': Function computing perturbing acceleration in the orbital frame 
+-`u::AbstractVector`: The current USM6 state.
+-`p::ComponentVector`: The parameter vector, the simulation start date JD and the central body gravitational parameter.
+-`t::Number`: The current time.
+-`models::NTuple{N,AstroForceModels.AbstractAstroForceModel}`: Tuple of the acceleration models.
 
 Returns:
--'du::AbstractArray{AbstractFloat, 1}': USM6 ODE Change in State Vector [C; Rf1; Rf2; σ1; σ2; σ3]
+-`du::AbstractVector`: Instantenous rate of change of the current state with respect to time.
 """
 function USM6_EOM(
     u::AbstractVector,
@@ -118,16 +164,25 @@ function USM6_EOM(
 end
 
 """
-USM6 ODE System
+    function USM6_EOM!(
+        du::AbstractVector,
+        u::AbstractVector,
+        p::ComponentVector,
+        t::Number,
+        models::NTuple{N,AstroForceModels.AbstractAstroForceModel},
+    ) where {N}
+
+Unified State Model (MRP's) propagation schema for orbital trajectories
 
 Arguments:
--'u::AbstractArray{AbstractFloat, 1}': USM6 State Vector [C; Rf1; Rf2; σ1; σ2; σ3]
--'p::AbstractArray{AbstractFloat, 1}': Parameter Vector
--'t::AbstractFloat': Time
--'accel::Function': Function computing perturbing acceleration in the orbital frame 
+-`du::AbstractVector`: In-place vector to store the instantenous rate of change of the current state with respect to time.
+-`u::AbstractVector`: The current USM6 state.
+-`p::ComponentVector`: The parameter vector, the simulation start date JD and the central body gravitational parameter.
+-`t::Number`: The current time.
+-`models::NTuple{N,AstroForceModels.AbstractAstroForceModel}`: Tuple of the acceleration models.
 
 Returns:
--'du::AbstractArray{AbstractFloat, 1}': USM6 ODE Change in State Vector [C; Rf1; Rf2; σ1; σ2; σ3]
+- `nothing`
 """
 function USM6_EOM!(
     du::AbstractVector,
@@ -143,16 +198,23 @@ end
 
 export USMEM_EOM, USMEM_EOM!
 """
-USMEM ODE System
+    function USMEM_EOM(
+        u::AbstractVector,
+        p::ComponentVector,
+        t::Number,
+        models::NTuple{N,AstroForceModels.AbstractAstroForceModel},
+    ) where {N}
+
+Unified State Model (exponential mapping) propagation schema for orbital trajectories
 
 Arguments:
--'u::AbstractArray{AbstractFloat, 1}': USM6 State Vector [C; Rf1; Rf2; σ1; σ2; σ3]
--'p::AbstractArray{AbstractFloat, 1}': Parameter Vector
--'t::AbstractFloat': Time
--'accel::Function': Function computing perturbing acceleration in the orbital frame 
+-`u::AbstractVector`: The current USMEM state.
+-`p::ComponentVector`: The parameter vector, the simulation start date JD and the central body gravitational parameter.
+-`t::Number`: The current time.
+-`models::NTuple{N,AstroForceModels.AbstractAstroForceModel}`: Tuple of the acceleration models.
 
 Returns:
--'du::AbstractArray{AbstractFloat, 1}': USM6 ODE Change in State Vector [C; Rf1; Rf2; σ1; σ2; σ3]
+-`du::AbstractVector`: Instantenous rate of change of the current state with respect to time.
 """
 function USMEM_EOM(
     u::AbstractVector,
@@ -211,16 +273,25 @@ function USMEM_EOM(
 end
 
 """
-USM6 ODE System
+    function USMEM_EOM!(
+        du::AbstractVector,
+        u::AbstractVector,
+        p::ComponentVector,
+        t::Number,
+        models::NTuple{N,AstroForceModels.AbstractAstroForceModel},
+    ) where {N}
+
+Unified State Model (exponential mapping) propagation schema for orbital trajectories
 
 Arguments:
--'u::AbstractArray{AbstractFloat, 1}': USM6 State Vector [C; Rf1; Rf2; σ1; σ2; σ3]
--'p::AbstractArray{AbstractFloat, 1}': Parameter Vector
--'t::AbstractFloat': Time
--'accel::Function': Function computing perturbing acceleration in the orbital frame 
+-`du::AbstractVector`: In-place vector to store the instantenous rate of change of the current state with respect to time.
+-`u::AbstractVector`: The current USM7 state.
+-`p::ComponentVector`: The parameter vector, the simulation start date JD and the central body gravitational parameter.
+-`t::Number`: The current time.
+-`models::NTuple{N,AstroForceModels.AbstractAstroForceModel}`: Tuple of the acceleration models.
 
 Returns:
--'du::AbstractArray{AbstractFloat, 1}': USM6 ODE Change in State Vector [C; Rf1; Rf2; σ1; σ2; σ3]
+- `nothing`
 """
 function USMEM_EOM!(
     u::AbstractVector,
