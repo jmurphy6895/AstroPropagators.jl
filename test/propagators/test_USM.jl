@@ -139,11 +139,11 @@ end
     # Regression Test
     # TODO: Cowell and USM diverge after a while, need better tests
     expected_end = [
-        5568.572766761747;
-        -6677.611439306551;
-        -1061.0170203608875;
-        7.488631356803176;
-        2.1801419660996624;
+        5568.572766761747
+        -6677.611439306551
+        -1061.0170203608875
+        7.488631356803176
+        2.1801419660996624
         -0.6222432860620839
     ]
     @test Cartesian(USM7(sol.u[end]), p.μ) ≈ expected_end rtol = 1e-4
