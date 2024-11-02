@@ -12,13 +12,18 @@
 This project implements several propagation methods for the **AstroPropagators.jl** ecosystem using equations of motion for different orbital element sets. The force models can either be user-supplied or built up with the **AstroForceModels.jl** package. This package was inspired by the [THALASSA library](https://github.com/woodywu-arizona/thalassa). A full list of implemented propagators can be found below:
 
 - [x] Cowell
+- [x] Gauss Variational Equations
 - [ ] EDromo
 - [ ] Kustaanheimo-Stiefel
+- [x] Milankovich
 - [ ] Stiefel-Scheifel
-- [ ] Unified State Model
-- [ ] Gauss Variational Equations
+- [X] Unified State Model
+    - [x] USM7
+    - [x] USM6
+    - [x] USMEM
 
-NOTE: Although the code for some of these are present, only Cowell is currently supported!
+
+NOTE: Although the code for some of these are present, only the checked ones currently supported!
 
 ## Installation
 
@@ -31,5 +36,5 @@ julia> Pkg.add("AstroPropagators")
 
 For more information, see the [documentation][docs-stable-url].
 
-[docs-dev-url]: https://jmurphy6895.github.io/AstroPropagators.jl/stable/
-[docs-stable-url]: https://jmurphy6895.github.io/AstroPropagators.jl/stable/
+[docs-dev-url]: https://jmurphy6895.github.io/AstroPropagators.jl/dev/
+[docs-stable-url]: https://jmurphy6895.github.io/AstroPropagators.jl/dev/
