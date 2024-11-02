@@ -48,7 +48,6 @@ function Milankovich_EOM(
     return SVector{7}(dH[1], dH[2], dH[3], de[1], de[2], de[3], dL)
 end
 
-
 """
     function Milankovich_EOM!(
         du::AbstractVector,
