@@ -8,6 +8,7 @@ using OrdinaryDiffEqAdamsBashforthMoulton
 using OrdinaryDiffEqCore
 using SatelliteToolboxGravityModels
 using SatelliteToolboxTransformations
+using SciMLBase
 using SpaceIndices
 using Test
 
@@ -19,6 +20,7 @@ using Test
     include("propagators/test_gaussVE.jl")
     include("propagators/test_milankovich.jl")
     include("propagators/test_USM.jl")
+    include("events/test_impulsive_maneuvers.jl")
 end
 
 #TODO: NEED TO FIX IN AstroForceModels & SatelliteToolbox
