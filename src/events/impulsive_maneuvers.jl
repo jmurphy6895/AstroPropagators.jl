@@ -6,12 +6,12 @@ export impulsive_burn!
         coordinate_set::AstroCoords.AstroCoord=Cartesian
     )
 
-Computes new state from an input impulsive burn. The supplied burn should be in the intertial frame
+Computes new state from an input impulsive burn. The supplied burn should be in the inertial frame
 and has to be computed before-hand. Both will change in future iterations.
 
 Arguments:
 -`integrator::SciMLBase.DEIntegrator`: The differential equation integrator object.
--`ΔV::AbstractVector`: The deltaV of the impuslive burn.
+-`ΔV::AbstractVector`: The deltaV of the impulsive burn.
 -`coordinate_set::AstroCoords.AstroCoord=Cartesian`: The coordinate set the propagation is occurring in.
 Returns:
 -`nothing`
